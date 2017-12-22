@@ -1,10 +1,10 @@
-IF NOT EXISTS(SELECT 1 FROM sys.procedures WHERE name = 'usp_HCDM_GetSession')
+IF NOT EXISTS(SELECT 1 FROM sys.procedures WHERE name = 'usp_PROJ_GetSession')
 BEGIN
-	EXEC('CREATE PROCEDURE usp_HCDM_GetSession AS RETURN 0')
+	EXEC('CREATE PROCEDURE usp_PROJ_GetSession AS RETURN 0')
 END
 GO
 
-ALTER PROCEDURE usp_HCDM_GetSession
+ALTER PROCEDURE usp_PROJ_GetSession
 (
 	@pKeyName VARCHAR(50)
 	, @pKeyValue VARCHAR(255) OUTPUT
@@ -20,7 +20,7 @@ BEGIN
 
 	SET @vDBName = CAST(DB_NAME() AS VARCHAR(50));
 
-	IF ISNULL(@vDBName, '') NOT IN ('HCDM')
+	IF ISNULL(@vDBName, '') NOT IN ('TSTPROJNAME')
 	BEGIN
 		RAISERROR('~ Unauthorised database session access ~', 16, 1)
 	END;
