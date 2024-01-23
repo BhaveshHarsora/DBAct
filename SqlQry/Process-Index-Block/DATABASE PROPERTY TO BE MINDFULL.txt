@@ -1,0 +1,10 @@
+/*
+Date 06 May 2021
+For parameter sniffing or Bad Execition plan, consider following paramter to set at database level
+
+Legacy Cardinality Estimation = ON
+Parameter Sniffin For Secondary = PRIMARY
+Query Optimizer Fixes = ON
+*/
+
+
