@@ -1,0 +1,60 @@
+DECLARE @vTbl AS TABLE (Id INT, Stat VARCHAR(10))
+
+INSERT INTO @vTbl (Id,Stat)
+SELECT 1,'A' UNION ALL
+SELECT 2,'A' UNION ALL
+SELECT 3,'A' UNION ALL
+SELECT 4,'A' UNION ALL
+SELECT 5,'A' UNION ALL
+SELECT 6,'A' UNION ALL
+SELECT 7,'A' UNION ALL
+SELECT 8,'A' UNION ALL
+SELECT 9,'A' UNION ALL
+SELECT 10,'A' UNION ALL
+SELECT 11,'R' UNION ALL
+SELECT 12,'R' UNION ALL
+SELECT 13,'V' UNION ALL
+SELECT 14,'R' UNION ALL
+SELECT 15,'A' UNION ALL
+SELECT 16,'R' UNION ALL
+SELECT 17,'A' UNION ALL
+SELECT 18,'R' UNION ALL
+SELECT 19,'R' UNION ALL
+SELECT 20,'R' 
+
+SELECT *
+	, (SELECT MAX(x.Id) FROM @vTbl AS x) AS MaxRange
+	, (SELECT MAX(x.Id) FROM @vTbl AS x WHERE x.Stat='A') AS MaxAss
+	, (SELECT MAX(x.Id) FROM @vTbl AS x WHERE x.Stat='R') AS MaxRes
+	, (SELECT MIN(x.Id) FROM @vTbl AS x WHERE x.Stat='V') AS MinVacant
+, (SELECT COUNT(*) 
+	FROM (
+		SELECT zz.Id
+		FROM @vTbl AS zz									
+		WHERE zz.Stat='V'
+	) AS z
+	WHERE 1=1
+	AND (z.Id BETWEEN (SELECT MAX(x.Id) FROM @vTbl AS x WHERE x.Stat='A') AND (SELECT MAX(x.Id) FROM @vTbl AS x))
+			OR
+			(z.Id BETWEEN (SELECT MAX(x.Id) FROM @vTbl AS x WHERE x.Stat='A') AND (SELECT MAX(x.Id) FROM @vTbl AS x WHERE x.Stat='R'))
+	)	
+FROM @vTbl AS a
+WHERE 1=1
+AND Stat='V'
+AND Id > CASE WHEN (EXISTS(SELECT 1
+							FROM (
+								SELECT zz.Id
+								FROM @vTbl AS zz									
+								WHERE zz.Stat='V'
+							) AS z
+							WHERE 1=1
+							AND (z.Id BETWEEN (SELECT MAX(x.Id) FROM @vTbl AS x WHERE x.Stat='A') AND (SELECT MAX(x.Id) FROM @vTbl AS x))
+									OR
+									(z.Id BETWEEN (SELECT MAX(x.Id) FROM @vTbl AS x WHERE x.Stat='A') AND (SELECT MAX(x.Id) FROM @vTbl AS x WHERE x.Stat='R'))
+						)
+					)	
+				THEN (SELECT MAX(x.Id) FROM @vTbl AS x WHERE x.Stat='A')
+				ELSE (SELECT MIN(x.Id) FROM @vTbl AS x WHERE x.Stat='V')-1
+		END				
+ORDER BY id
+
