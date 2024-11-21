@@ -1,11 +1,11 @@
 USE [MASTER]
 GO
-IF NOT EXISTS(SELECT 1 FROM sys.procedures WHERE name = 'usp_NowExec_v2')
+IF NOT EXISTS(SELECT 1 FROM sys.procedures WHERE name = 'usp_NowExec')
 BEGIN
-	EXEC ('CREATE PROCEDURE dbo.usp_NowExec_v2 AS BEGIN RETURN 0; END;');
+	EXEC ('CREATE PROCEDURE dbo.usp_NowExec AS BEGIN RETURN 0; END;');
 END;
 GO
-ALTER PROCEDURE dbo.usp_NowExec_v2
+ALTER PROCEDURE dbo.usp_NowExec
 AS
 BEGIN
 

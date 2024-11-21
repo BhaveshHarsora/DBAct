@@ -1,0 +1,1 @@
+DECLARE @result INT	,@path AS NVARCHAR(255) =	N'\\PRDPWSLIP0006\wwwroot\slipedInterfaces\GraniteFTP\Inbox\GraniteFTP_OTU.txt'EXEC master.dbo.xp_fileexist @path, @result OUTPUTSELECT cast(@result as bit) EXEC master.dbo.xp_dirtree '/home/cftcdbuser1/' --PwhcProd01_backup_2018_12_19_233004_6324109.bak EXEC master.dbo.xp_subdirs '/home/cftc/MSsqlLatesh'

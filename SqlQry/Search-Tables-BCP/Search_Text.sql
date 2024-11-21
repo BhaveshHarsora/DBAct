@@ -1,11 +1,12 @@
 --use preferredpatrondata2
+--USE lottobytext_pwa
 GO
-
+ 
 /**************************************** SEARCH OBJECT TEXT ****************************************/
 DECLARE @vForceRefresh BIT = 0;
 DECLARE @vSearchText AS VARCHAR(MAX);
 
-SET @vSearchText = 'P_TIER_TRANSITION_SKU'
+SET @vSearchText = '"RG1_21"'
 -----------------------------------------------------------------------------------------------------------------------
 
 IF NOT EXISTS (SELECT 1 FROM tempdb.sys.tables WHERE create_date > DATEADD(MINUTE,-120,GETDATE()) AND object_id=OBJECT_ID('tempdb..#tempSearchDbObjectResult'))

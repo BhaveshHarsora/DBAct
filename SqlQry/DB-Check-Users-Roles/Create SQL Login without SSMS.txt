@@ -1,0 +1,32 @@
+/*
+Date 15 Oct 2020
+Add SQL Windows User/Login without SSMS 
+	from CMD (run as administrator)
+*/
+
+-----------------------------------------------------------------------------------------------------------------------
+e.g.
+	sqlcmd -S .\sql-instance -q "exec sp_addsrvrolemember 'machin-name\windows-user', 'sysadmin'"
+
+-----------------------------------------------------------------------------------------------------------------------
+Working fine
+------------
+
+sqlcmd -S ec2amaz-hpqohlb -q "exec sp_addsrvrolemember 'ec2amaz-hpqohlb\oktaytech', 'sysadmin'"
+
+-----------------------------------------------------------------------------------------------------------------------
+GOTO:
+	SQL SERVER CONFIG MANAGER > SQL SERVER INSTANCE (MSSQLSERVER) > PROPERTY > START UP PARAMETERS (TAB) > -m  > Click on [ADD] > Restart SQL SERVER Services 
+		this will make SSMS to open in Single User mode and bypass the Login - So then Add user from Object explorer or Apply below TQL
+
+-- Windows User
+CREATE LOGIN [CONTOSO\PatK] FROM WINDOWS;  
+ALTER SERVER ROLE sysadmin ADD MEMBER [CONTOSO\PatK];  
+
+---
+
+-- SQL User
+CREATE LOGIN TempLogin WITH PASSWORD = '************';  
+ALTER SERVER ROLE sysadmin ADD MEMBER TempLogin;  
+
+-----------------------------------------------------------------------------------------------------------------------
